@@ -74,6 +74,10 @@ float mid_fade_amount;
 int mid_fade_dir;
 int mid_state;		// 1 == single player hiscores, 2 == two player hiscores, 3 == credits
 int mid_state_wait;
+#define FADE_WAIT_FACTOR 60
+#define WAIT_BEFORE_FADE_IN 1
+#define WAIT_BEFORE_FADE_OUT 5
+#define FADE_STEP 0.016f
 
 
 // Background animation
@@ -547,7 +551,7 @@ int show_menu(int menu_id) {
 	mid_fade_amount = 0.0f;
 	mid_fade_dir = 1;
 	mid_state = 1;
-	mid_state_wait = 3 * 60;
+	mid_state_wait = WAIT_BEFORE_FADE_IN * FADE_WAIT_FACTOR;
 	memset(key, 0, sizeof(key));
 	setting_key = false;
 	key_to_set = NULL;
@@ -681,7 +685,7 @@ int show_menu(int menu_id) {
 					mid_fade_amount = 0.0f;
 					mid_fade_dir = 1;
 					mid_state = 1;
-					mid_state_wait = 3 * 60;
+					mid_state_wait = WAIT_BEFORE_FADE_IN * FADE_WAIT_FACTOR;
 
 					// Restore the settings
 					load_config(get_config_location(), &config);
@@ -784,7 +788,7 @@ int show_menu(int menu_id) {
 						mid_fade_amount = 0.0f;
 						mid_fade_dir = 1;
 						mid_state = 1;
-						mid_state_wait = 3 * 60;
+						mid_state_wait = WAIT_BEFORE_FADE_IN * FADE_WAIT_FACTOR;
 
 						save_config(get_config_location(true), &config);
 						break;
@@ -796,7 +800,7 @@ int show_menu(int menu_id) {
 						mid_fade_amount = 0.0f;
 						mid_fade_dir = 1;
 						mid_state = 1;
-						mid_state_wait = 3 * 60;
+						mid_state_wait = WAIT_BEFORE_FADE_IN * FADE_WAIT_FACTOR;
 
 						// Restore the settings
 						load_config(get_config_location(), &config);
@@ -867,20 +871,20 @@ int show_menu(int menu_id) {
 					// Fade either in or out
 					if(mid_fade_dir == 1) {
 						if(mid_fade_amount < 1.0f)
-							mid_fade_amount += 0.008f;
+							mid_fade_amount += FADE_STEP;
 						if(mid_fade_amount >= 1.0f) {
 							// Wait a bit before fading out
 							mid_fade_dir = 2;
-							mid_state_wait = 5 * 60;
+							mid_state_wait = WAIT_BEFORE_FADE_OUT * FADE_WAIT_FACTOR;
 						}
 					}
 					else if(mid_fade_dir == 2) {
 						if(mid_fade_amount > 0.0f)
-							mid_fade_amount -= 0.008f;
+							mid_fade_amount -= FADE_STEP;
 						if(mid_fade_amount <= 0.0f) {
 							// Wait a bit before changing the state and fading in
 							mid_fade_dir = 1;
-							mid_state_wait = 3 * 60;
+							mid_state_wait = WAIT_BEFORE_FADE_IN * FADE_WAIT_FACTOR;
 							mid_state++;
 							if(mid_state > 3)
 								mid_state = 1;
