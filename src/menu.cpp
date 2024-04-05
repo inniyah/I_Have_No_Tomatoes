@@ -135,27 +135,39 @@ void draw_credits(float fade) {
 	glColor4f(0.1f,1,1, fade);
 	glprintf_center(font1, 0, 0, 3.05f, -13, "CREDITS");
 
-	set_font_scale(0.6f, 0.6f);
+	set_font_scale(0.5f, 0.5f);
 
+	#define VPOS_WHAT 1.3f
+	#define VPOS_WHO 0.5f
+	float vpos = 2.4f;
 	glColor4f(0.7f,0.8f,1, fade);
-	glprintf_center(font1, 0, 0, 2.4f, -13, "GAME DESIGN");
+	glprintf_center(font1, 0, 0, vpos, -13, "GAME DESIGN");
 	glColor4f(1,1,1, fade);
-	glprintf_center(font1, 0, 0, 1.8f, -13, "TEEMU RUOKOLAINEN");
+	glprintf_center(font1, 0, 0, vpos-VPOS_WHO, -13, "TEEMU RUOKOLAINEN");
 
+	vpos -= VPOS_WHAT;
 	glColor4f(0.7f,0.8f,1, fade);
-	glprintf_center(font1, 0, 0, 0.8f, -13, "PROGRAMMING");
+	glprintf_center(font1, 0, 0, vpos, -13, "PROGRAMMING");
 	glColor4f(1,1,1, fade);
-	glprintf_center(font1, 0, 0, 0.2f, -13, "MIKA HALTTUNEN");
+	glprintf_center(font1, 0, 0, vpos-VPOS_WHO, -13, "MIKA HALTTUNEN");
 
+	vpos -= VPOS_WHAT;
 	glColor4f(0.7f,0.8f,1, fade);
-	glprintf_center(font1, 0, 0, -0.8f, -13, "SOUND AND MUSIC");
+	glprintf_center(font1, 0, 0, vpos, -13, "SOUND AND MUSIC");
 	glColor4f(1,1,1, fade);
-	glprintf_center(font1, 0, 0, -1.4f, -13, "TEEMU RUOKOLAINEN");
+	glprintf_center(font1, 0, 0, vpos-VPOS_WHO, -13, "TEEMU RUOKOLAINEN");
 
+	vpos -= VPOS_WHAT;
 	glColor4f(0.7f,0.8f,1, fade);
-	glprintf_center(font1, 0, 0, -2.4f, -13, "ARTWORK");
+	glprintf_center(font1, 0, 0, vpos, -13, "ARTWORK");
 	glColor4f(1,1,1, fade);
-	glprintf_center(font1, 0, 0, -3.0f, -13, "MIKA HALTTUNEN");
+	glprintf_center(font1, 0, 0, vpos-VPOS_WHO, -13, "MIKA HALTTUNEN");
+
+	vpos -= VPOS_WHAT;
+	glColor4f(0.7f,0.8f,1, fade);
+	glprintf_center(font1, 0, 0, vpos, -13, "DEBIAN PACKAGING");
+	glColor4f(1,1,1, fade);
+	glprintf_center(font1, 0, 0, vpos-VPOS_WHO, -13, "SAMUEL HENRIQUE O. P.");
 
 	set_font_scale(1,1);
 }
