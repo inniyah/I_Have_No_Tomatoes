@@ -51,7 +51,7 @@ endif
 endif
 
 # Source and object files
-SOURCES = $(wildcard src/*.cpp)
+SOURCES = $(sort $(wildcard src/*.cpp))
 OBJS = $(SOURCES:.cpp=.o)
 OBJS := $(subst src/,obj/,$(OBJS))
 
