@@ -47,8 +47,6 @@ ifdef PROFILE
 CFLAGS = -MMD -g3 -O3 -march=$(MARCH) -Wall -pg
 LDFLAGS = `sdl-config --libs` -lSDL_image -lSDL_mixer -lGL -lGLU -pg
 else
-CFLAGS = -MMD -O3 -march=$(MARCH) -Wall $(SDL_FLAGS)
-LDFLAGS = `sdl-config --libs` -lSDL_image -lSDL_mixer -lGL -lGLU -s
 endif
 endif
 
@@ -80,7 +78,7 @@ veryclean:
 rebuild: veryclean all
 
 obj/%.o: src/%.cpp
-	$(CC) $(CFLAGS) $(INCLUDES) $(DIR_DEFINES) -c $< -o $@
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDES) $(DIR_DEFINES) -c $< -o $@
 
 # Compress the exe with UPX
 compress: $(TARGET)
