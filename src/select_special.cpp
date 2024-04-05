@@ -278,7 +278,7 @@ void do_special_selection() {
 
 
 	// Invoke a special power
-	if((key[config.key_shoot[who]] || key[SDLK_RETURN]) && icon_menu.wait == 0) {
+	if((key[config.key_shoot[who]] || key[SDLK_RETURN] || key[SDLK_KP_ENTER]) && icon_menu.wait == 0) {
 		int power = icon_menu.selected;
 
 		bool disabled = (icon_menu.count[power] == 0 || (icon_menu.is_on_block && (power == RED_POWER_TRAP || power == GREEN_POWER_FLOWERPOWER)));

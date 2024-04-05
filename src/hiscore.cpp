@@ -267,7 +267,7 @@ void HISCORE_LIST::input_name(int place) {
 					pos = 0;
 				str[pos] = '\0';
 			}
-			else if(key[SDLK_RETURN] && pos > 0 && str[0] != ' ') {
+			else if((key[SDLK_RETURN] || key[SDLK_KP_ENTER]) && pos > 0 && str[0] != ' ') {
 				fading = 2;
 				typed = false;
 			}

@@ -707,7 +707,7 @@ int show_menu(int menu_id) {
 			}
 
 			// Handle the item selection
-			if(key[SDLK_RETURN] || key[SDLK_SPACE]) {
+			if(key[SDLK_RETURN] || key[SDLK_KP_ENTER] || key[SDLK_SPACE]) {
 				play_sound(SND_MENU2, false);
 				switch(menu_item) {
 					// MAIN MENU items

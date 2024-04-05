@@ -403,7 +403,7 @@ void start_game(bool two_pls) {
 
 			// ENTER press
 			if(confirm_esc) {
-				if(key[SDLK_RETURN]) {
+				if(key[SDLK_RETURN] || key[SDLK_KP_ENTER]) {
 					if(key_return_down == false) {
 						key_return_down = true;
 						confirm_esc = false;
@@ -430,7 +430,7 @@ void start_game(bool two_pls) {
 
 				// Handle the level pause
 				if(level_pause == LEVEL_PAUSE_BEGIN) {
-					if(key[SDLK_RETURN] || key[config.key_shoot[0]] || key[config.key_shoot[1]]) {
+					if(key[SDLK_RETURN] || key[SDLK_KP_ENTER] || key[config.key_shoot[0]] || key[config.key_shoot[1]]) {
 						if(!key_return_down) {
 							// Start timing the level change
 							start_level_timing();
