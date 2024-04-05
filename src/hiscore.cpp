@@ -69,7 +69,7 @@ string get_tomatoes_dir();
 // hiscore file. It first checks the user's home directory,
 // and if that fails it uses the HISCORE_DIR defined in the
 // makefile.
-char *get_hiscore_location(int which, bool write) {
+string get_hiscore_location(int which, bool write) {
 #ifdef LINUX
 	// Get the path to the hiscore file
 	string tmp;
@@ -91,7 +91,7 @@ char *get_hiscore_location(int which, bool write) {
 		fclose(ftest);
 	}
 
-	return (char*)tmp.c_str();
+	return tmp;
 #endif
 
 	// Return the HISCORE_DIR
@@ -401,11 +401,11 @@ void HISCORE_LIST::draw(int place, float fade) {
 
 
 // Save the list to a file
-void HISCORE_LIST::save(char *file) {
+void HISCORE_LIST::save(string file) {
 	FILE *fout;
-	fout = fopen(file, "wb");
+	fout = fopen(file.c_str(), "wb");
 	if(!fout)
-		error_msg("Unable to save the hiscore list to %s!\n", file);
+		error_msg("Unable to save the hiscore list to %s!\n", file.c_str());
 
 	// Write the scores
 	int f;
@@ -421,9 +421,9 @@ void HISCORE_LIST::save(char *file) {
 
 
 // Load the list from a file
-void HISCORE_LIST::load(char *file) {
+void HISCORE_LIST::load(string file) {
 	FILE *fin;
-	fin = fopen(file, "rb");
+	fin = fopen(file.c_str(), "rb");
 	if(!fin) {
 		// The list wasn't found, no problem.
 		clear();

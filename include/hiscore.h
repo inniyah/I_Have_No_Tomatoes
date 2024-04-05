@@ -30,6 +30,8 @@
 #ifndef HISCORE_H
 #define HISCORE_H
 
+#include <string>
+
 // Number of names in the hiscore list
 #define NUM_NAMES			8
 
@@ -57,8 +59,8 @@ public:
 	void sort();								// Sort the list
 	int add_name(char *name, int score);		// Add a record
 	void draw(int place, float fade);			// Draw the list
-	void save(char *file);						// Save the list
-	void load(char *file);						// Load the list
+	void save(std::string file);					// Save the list
+	void load(std::string file);					// Load the list
 	void input_name(int place);					// Input a name
 };
 
@@ -66,7 +68,7 @@ public:
 extern HISCORE_LIST hiscore_1;
 extern HISCORE_LIST hiscore_2;
 
-char *get_hiscore_location(int which, bool write = false);
+std::string get_hiscore_location(int which, bool write = false);
 
 
 #endif

@@ -76,7 +76,7 @@ string get_tomatoes_dir() {
 // config file. It first checks the user's home directory,
 // and if that fails it uses the CONFIG_DIR defined in the
 // makefile.
-char *get_config_location(bool write) {
+string get_config_location(bool write) {
 #ifdef LINUX
 	// Get the path to the config file
 	string tmp = get_tomatoes_dir() + "config.cfg";
@@ -91,7 +91,7 @@ char *get_config_location(bool write) {
 		fclose(ftest);
 	}
 
-	return (char*)tmp.c_str();
+	return tmp;
 #endif
 
 	// Return the CONFIG_DIR
@@ -100,11 +100,11 @@ char *get_config_location(bool write) {
 
 
 // Load config from file
-void load_config(char *file, CONFIG *conf) {
+void load_config(string file, CONFIG *conf) {
 
-	FILE *f = fopen(file, "rt");
+	FILE *f = fopen(file.c_str(), "rt");
 	if(!f)
-		error_msg("Unable to load config file: %s!", file);
+		error_msg("Unable to load config file: %s!", file.c_str());
 
 	fscanf(f, "video_mode = %d x %d\n", &(conf->vid_w), &(conf->vid_h));
 	fscanf(f, "video_mode_color_depth = %d\n", &(conf->vid_color_depth));
@@ -127,11 +127,11 @@ void load_config(char *file, CONFIG *conf) {
 
 
 // Save config to file
-void save_config(char *file, CONFIG *conf) {
+void save_config(string file, CONFIG *conf) {
 
-	FILE *f = fopen(file, "wt");
+	FILE *f = fopen(file.c_str(), "wt");
 	if(!f)
-		error_msg("Unable to save config file: %s!", file);
+		error_msg("Unable to save config file: %s!", file.c_str());
 
 	fprintf(f, "video_mode = %d x %d\n", (conf->vid_w), (conf->vid_h));
 	fprintf(f, "video_mode_color_depth = %d\n", (conf->vid_color_depth));

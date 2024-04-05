@@ -30,6 +30,9 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+
+#include <string>
+
 // Config structure
 struct CONFIG {
 	int vid_w;				// Video mode width
@@ -59,14 +62,14 @@ struct CONFIG {
 // config file. It first checks the user's home directory,
 // and if that fails it uses the CONFIG_DIR defined in the
 // makefile.
-char *get_config_location(bool write = false);
+std::string get_config_location(bool write = false);
 
 
 // Load config from file
-void load_config(char *file, CONFIG *conf);
+void load_config(std::string file, CONFIG *conf);
 
 // Save config to file
-void save_config(char *file, CONFIG *conf);
+void save_config(std::string file, CONFIG *conf);
 
 #endif
 
