@@ -172,7 +172,7 @@ UINT32 MPAK_SWAPLE(UINT32 x) {
 
 // This helper function returns the filename without full path.
 // Pass a full path.
-char *mpk_strip_path(char *path) {
+char *mpk_strip_path(const char *path) {
 
 	int pos = strlen(path);
 	while(pos > 0) {
@@ -218,7 +218,7 @@ void MPAK_FILE::init() {
 // Open a package for reading or writing. You don't need to supply
 // the override directory, but it's recommended for reading mode.
 // Returns zero on failure.
-int MPAK_FILE::open_mpk(int open_mode, char *file, char *override) {
+int MPAK_FILE::open_mpk(int open_mode, const char *file, const char *override) {
 
 	// Check if it's already open
 	if(mode != MPAK_CLOSED)
@@ -402,7 +402,7 @@ void MPAK_FILE::close_mpk() {
 
 // Add a file to the package.
 // Returns zero on failure.
-int MPAK_FILE::add_file(char *file) {
+int MPAK_FILE::add_file(const char *file) {
 
 	// Check that we're in write mode
 	if(mode != MPAK_WRITE)
@@ -450,7 +450,7 @@ int MPAK_FILE::add_file(char *file) {
 // from the override directory, and if the file isn't there it looks
 // from the package. The user MUST fclose() the pointer himself!
 // Returns NULL on failure.
-FILE *MPAK_FILE::open_file(char *file) {
+FILE *MPAK_FILE::open_file(const char *file) {
 
 	// Check that we're in read mode
 	if(mode != MPAK_READ)
@@ -501,7 +501,7 @@ FILE *MPAK_FILE::open_file(char *file) {
 // You can supply optional path prefix if you don't want to extract to the
 // working directory.
 // Returns zero on failure.
-int MPAK_FILE::extract_file(char *file, char *path) {
+int MPAK_FILE::extract_file(const char *file, const char *path) {
 
 	// Retrieve the pointer from open_file()
 	FILE *fin = open_file(file);
@@ -551,7 +551,7 @@ int MPAK_FILE::extract_file(char *file, char *path) {
 
 // Find the index of a particular file in the package.
 // Returns -1 on failure.
-int MPAK_FILE::find_file(char *file) {
+int MPAK_FILE::find_file(const char *file) {
 	// Check that we're open
 	if(mode == MPAK_CLOSED)
 		return -1;

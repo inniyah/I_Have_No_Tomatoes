@@ -28,9 +28,9 @@
 *************************************************************************/
 
 #include <stdio.h>
-#include "SDL.h"
-#include "SDL_opengl.h"
-#include "SDL_image.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
+#include <SDL2/SDL_image.h>
 #include "special_power.h"
 #include "enemy.h"
 #include "mymath.h"
@@ -510,7 +510,7 @@ void SP_FLOWERPOWER::draw() {
 // Helper function which gets a random position block to which the player can
 // teleport
 bool block_teleport(int tx, int ty) {
-	if(!map[tx][ty][1])
+	if(!map_data[tx][ty][1])
 		return false;
 
 	int count = 0;

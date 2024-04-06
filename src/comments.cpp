@@ -30,8 +30,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
-#include "SDL.h"
-#include "SDL_opengl.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
 #include "init.h"
 #include "font.h"
 #include "comments.h"
@@ -50,7 +50,7 @@ COMMENT comments[NUM_COMMENTS];
 
 
 // Add a comment
-void add_comment(int color, char *str, ...) {
+void add_comment(int color, const char *str, ...) {
 	// Format the string arguments
 	char buf[256];
 	va_list args;
@@ -97,7 +97,7 @@ void clear_comments() {
 
 
 // Set the text
-void COMMENT::set(int color_, char *str) {
+void COMMENT::set(int color_, const char *str) {
 	clear();
 
 	// Set the buf

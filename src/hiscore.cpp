@@ -30,8 +30,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "SDL.h"
-#include "SDL_opengl.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
 #include "init.h"
 #include "font.h"
 #include "game.h"
@@ -122,14 +122,12 @@ void HISCORE_LIST::input_name(int place) {
 	by_roll = RANDF(0,1);
 	bx_roll_dir = RANDF(-0.001f,0.001f);
 	by_roll_dir = RANDF(-0.001f,0.001f);
-	memset(key, 0, sizeof(key));
+	key.clear();
 
 	// Fade in
 	fading = 1;
 	fade_amount = 1.0f;
 
-
-	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
 	// Loop
 	timer_count = 0;
@@ -172,7 +170,7 @@ void HISCORE_LIST::input_name(int place) {
 			cursor_blink %= 20;
 
 			// Get the keyboard modifiers
-			SDLMod keymods = SDL_GetModState();
+			SDL_Keymod keymods = SDL_GetModState();
 
 			// Check input
 			typed = true;
@@ -275,8 +273,8 @@ void HISCORE_LIST::input_name(int place) {
 				typed = false;
 			}
 
-			// Clear the key array
-			memset(key, 0, sizeof(key));
+			// Clear the key buffer
+			key.clear();
 
 			// Animate the background
 			back_anim = add_angle(back_anim, 2.0f);
@@ -337,10 +335,9 @@ void HISCORE_LIST::input_name(int place) {
 
 		// Flush and swap the buffers
 		glFlush();
-		SDL_GL_SwapBuffers();
+		SDL_GL_SwapWindow(sdl_window);
 	}
 
-	SDL_EnableKeyRepeat(0,0);
 }
 
 
@@ -444,7 +441,7 @@ void HISCORE_LIST::load(string file) {
 
 
 // Add a name to the list. Returns the place.
-int HISCORE_LIST::add_name(char *name, int score) {
+int HISCORE_LIST::add_name(const char *name, int score) {
 	// Check if we qualify
 	if(list[NUM_NAMES-1].score >= score)
 		return -1;

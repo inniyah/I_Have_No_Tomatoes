@@ -30,9 +30,9 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
-#include "SDL.h"
-#include "SDL_image.h"
-#include "SDL_opengl.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_opengl.h>
 #include "font.h"
 #include "texture.h"
 
@@ -71,7 +71,7 @@ float glfont_length(char *string, ...) {
 
 
 // Print a string with specified font texture
-void glprintf(GLuint tex, int set, float x, float y, float z, char *string, ...) {
+void glprintf(GLuint tex, int set, float x, float y, float z, const char *string, ...) {
 
 	// Format the string arguments
 	char buf[1024];
@@ -97,7 +97,7 @@ void glprintf(GLuint tex, int set, float x, float y, float z, char *string, ...)
 
 
 // Print a centered string with specified font texture
-void glprintf_center(GLuint tex, int set, float x, float y, float z, char *string, ...) {
+void glprintf_center(GLuint tex, int set, float x, float y, float z, const char *string, ...) {
 
 	// Format the string arguments
 	char buf[1024];

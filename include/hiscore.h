@@ -57,7 +57,7 @@ public:
 
 	void clear();								// Clear the list
 	void sort();								// Sort the list
-	int add_name(char *name, int score);		// Add a record
+	int add_name(const char *name, int score);		// Add a record
 	void draw(int place, float fade);			// Draw the list
 	void save(std::string file);					// Save the list
 	void load(std::string file);					// Load the list

@@ -33,8 +33,8 @@
 #include "config.h"
 
 // Keep a global pointer to the screen
-struct SDL_Surface;
-extern SDL_Surface *screen;
+struct SDL_Window;
+extern SDL_Window *sdl_window;
 
 // Keep a global pointer to the config
 extern CONFIG config;
@@ -48,7 +48,7 @@ extern MPAK_FILE pakfile;
 void init_sdl_and_gl();
 
 // Display an error message and quit
-void error_msg(char *msg, ...);
+void error_msg(const char *msg, ...);
 
 #endif
 

@@ -28,9 +28,12 @@
 *************************************************************************/
 
 #include <stdio.h>
-#include "SDL.h"
-#include "SDL_opengl.h"
-#include "SDL_image.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_scancode.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 #include "game.h"
 #include "texture.h"
 #include "init.h"
@@ -77,8 +80,8 @@ static float light_position1[] = { MAP_W*0.5f, 6.0f, MAP_H*0.75f, 1.0f };
 static float light_position2[] = { -MAP_W*0.5f, 2.0f, MAP_H*0.25f, 1.0f };
 
 
-// Array containing currently pressed keys
-Uint8 key[SDLK_LAST];
+// Buffer containing currently pressed keys
+std::map<SDL_Keycode, Uint8> key;
 
 // Kill count
 int kill_count;
@@ -280,7 +283,7 @@ void draw() {
 
 	// Flush and swap the buffers
 	glFlush();
-	SDL_GL_SwapBuffers();
+	SDL_GL_SwapWindow(sdl_window);
 }
 
 
@@ -310,7 +313,7 @@ bool handle_event(SDL_Event &event) {
 // Start the game
 void start_game(bool two_pls) {
 	// Initialize
-	memset(key, 0, sizeof(key));
+	key.clear();
 	clear_comments();
 	clear_map();
 	clear_enemies();

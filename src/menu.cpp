@@ -30,9 +30,9 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
-#include "SDL.h"
-#include "SDL_opengl.h"
-#include "SDL_image.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
+#include <SDL2/SDL_image.h>
 #include "game.h"
 #include "texture.h"
 #include "init.h"
@@ -96,15 +96,15 @@ bool setting_key;
 
 
 // Helper function which returns a key name in upper case
-char *key_name(int key) {
+const char *key_name(int key) {
 
 	if(key != -1) {
 		// Get the key name from SDL
 		static char buf[32];
 #ifdef WIN32
-		_snprintf(buf, 32, "%s", SDL_GetKeyName((SDLKey)key));
+		_snprintf(buf, 32, "%s", SDL_GetKeyName((SDL_Keycode)key));
 #else
-		snprintf(buf, 32, "%s", SDL_GetKeyName((SDLKey)key));
+		snprintf(buf, 32, "%s", SDL_GetKeyName((SDL_Keycode)key));
 #endif
 
 		if(strcmp(buf, "left") == 0)
@@ -564,7 +564,7 @@ int show_menu(int menu_id) {
 	mid_fade_dir = 1;
 	mid_state = 1;
 	mid_state_wait = WAIT_BEFORE_FADE_IN * FADE_WAIT_FACTOR;
-	memset(key, 0, sizeof(key));
+	key.clear();
 	setting_key = false;
 	key_to_set = NULL;
 	whose_keys = 0;
@@ -577,8 +577,6 @@ int show_menu(int menu_id) {
 	// Fade in
 	fading = 1;
 	fade_amount = 1.0f;
-
-	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
 
 	// Menu loop
@@ -858,8 +856,8 @@ int show_menu(int menu_id) {
 			}
 
 
-			// Clear the key array
-			memset(key, 0, sizeof(key));
+			// Clear the key buffer
+			key.clear();
 
 			// Animate the background
 			back_anim = add_angle(back_anim, 2.0f);
@@ -914,11 +912,10 @@ int show_menu(int menu_id) {
 
 		// Flush and swap the buffers
 		glFlush();
-		SDL_GL_SwapBuffers();
+		SDL_GL_SwapWindow(sdl_window);
 
 	}
 
-	SDL_EnableKeyRepeat(0,0);
 	return action;
 }
 

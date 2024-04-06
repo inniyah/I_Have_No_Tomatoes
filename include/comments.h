@@ -56,12 +56,12 @@ public:
 	void clear();						// Clear the comment
 	void move();						// Move the comment
 	void draw(float ypos);				// Draw the comment
-	void set(int color, char *str);		// Set the comment
+	void set(int color, const char *str);		// Set the comment
 	void copy(COMMENT &from);			// Copy the comment
 };
 
 
-void add_comment(int color, char *str, ...);
+void add_comment(int color, const char *str, ...);
 void draw_comments();
 void move_comments();
 void clear_comments();

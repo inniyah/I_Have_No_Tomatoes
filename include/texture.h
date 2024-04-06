@@ -35,10 +35,10 @@
 
 
 // Load a PNG
-GLuint load_png(char *file, bool alpha = false, bool repeat = false, bool mipmaps = true);
+GLuint load_png(const char *file, bool alpha = false, bool repeat = false, bool mipmaps = true);
 
 // Load a JPG
-GLuint load_jpg(char *file, bool alpha = false, bool repeat = false, bool mipmaps = true);
+GLuint load_jpg(const char *file, bool alpha = false, bool repeat = false, bool mipmaps = true);
 
 
 // Load a image file using SDL_Image and
@@ -47,10 +47,10 @@ GLuint load_jpg(char *file, bool alpha = false, bool repeat = false, bool mipmap
 // If repeat == true -> texture can be tiled
 // If mipmaps == true -> Mipmaps will be generated
 // Return texture ID
-GLuint load_texture(char *file, char *type, bool alpha = false, bool repeat = false, bool mipmaps = true);
+GLuint load_texture(const char *file, const char *type, bool alpha = false, bool repeat = false, bool mipmaps = true);
 
 // Same as load_texture(), but loads into the specified texture index
-void load_texture_into(GLuint tex, char *file, char *img_type, bool alpha, bool repeat, bool mipmaps);
+void load_texture_into(GLuint tex, const char *file, const char *img_type, bool alpha, bool repeat, bool mipmaps);
 
 // Grab texture contents from the frame buffer.
 // Assuming that 'tex' is a valid texture ID

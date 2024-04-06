@@ -31,12 +31,13 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-#include "SDL.h"
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
-#include "SDL_opengl.h"
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
 
 
 #include "config.h"
@@ -44,8 +45,9 @@
 #include "mymath.h"
 
 
-// Keep a global pointer to the screen
-SDL_Surface *screen;
+// Keep global pointers to the SDL window and the SDL GL context
+SDL_Window *sdl_window;
+SDL_GLContext sdl_context;
 
 
 // Keep a global pointer to the config
@@ -58,7 +60,7 @@ MPAK_FILE pakfile;
 
 
 // Display an error message and quit
-void error_msg(char *msg, ...) {
+void error_msg(const char *msg, ...) {
 
 	char *buf = new char[4096];
 
@@ -89,19 +91,12 @@ void init_sdl_and_gl() {
 	// Load the config
 	load_config(get_config_location(), &config);
 
-	// Check for 8-bit
-	if(config.vid_color_depth == 8)
-		error_msg("Sorry, 8-bit color depth is not supported!\nYou must use 15, 16, 24 or 32-bit mode.\n");
-
 	// Initialize SDL with video and timer support
 	if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER|SDL_INIT_AUDIO) < 0)
 		error_msg("Unable to init SDL: %s", SDL_GetError());
 
 	// Hide the mouse cursor
 	SDL_ShowCursor(0);
-
-	// Set window caption
-	SDL_WM_SetCaption("I Have No Tomatoes", "I Have No Tomatoes");
 
 	// Open the pakfile, with globally define OVERRIDE_DIR being the override directory
 	pakfile.init();
@@ -113,11 +108,11 @@ void init_sdl_and_gl() {
 	FILE *fin = pakfile.open_file("icon.bmp");
 	if(!fin)
 		error_msg("Unable to load the icon!\n");
-	icon = SDL_LoadBMP_RW(SDL_RWFromFP(fin, 1), 1);
+	icon = SDL_LoadBMP_RW(SDL_RWFromFP(fin, SDL_TRUE), 1);
 	if(!icon)
 		error_msg("Unable to load the icon!\n");
-	SDL_SetColorKey(icon, SDL_SRCCOLORKEY, SDL_MapRGB(icon->format, 255, 0, 255));
-	SDL_WM_SetIcon(icon, NULL);
+	SDL_SetColorKey(icon, SDL_TRUE, SDL_MapRGB(icon->format, 255, 0, 255));
+	SDL_SetWindowIcon(sdl_window, icon);
 	SDL_FreeSurface(icon);
 
 	// Initialize math tables
@@ -130,9 +125,16 @@ void init_sdl_and_gl() {
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-	screen = SDL_SetVideoMode(config.vid_w, config.vid_h, config.vid_color_depth, (config.fullscreen) ? (SDL_OPENGL|SDL_FULLSCREEN) : (SDL_OPENGL));
-	if(screen == NULL)
-		error_msg("Unable to set the OpenGL video mode %d x %d (%d bit)!\n%s", config.vid_w, config.vid_h, config.vid_color_depth, SDL_GetError());
+	sdl_window = SDL_CreateWindow("I Have No Tomatoes", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, config.vid_w, config.vid_h,
+		(config.fullscreen) ? (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_OPENGL) : (SDL_WINDOW_OPENGL));
+	if(sdl_window == NULL)
+		error_msg("Unable to set the OpenGL video mode %d x %d!\n%s", config.vid_w, config.vid_h, SDL_GetError());
+
+	sdl_context = SDL_GL_CreateContext(sdl_window);
+	if (sdl_context == NULL)
+		error_msg("Failed to create OpenGL context!\n%s", SDL_GetError());
+
+	//~ screen = SDL_SetVideoMode(config.vid_w, config.vid_h, config.vid_color_depth, (config.fullscreen) ? (SDL_OPENGL|SDL_FULLSCREEN) : (SDL_OPENGL));
 
 	// Set OpenGL settings
 	glEnable(GL_DEPTH_TEST);
@@ -146,13 +148,11 @@ void init_sdl_and_gl() {
 
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
+	glDisable(GL_DITHER);
 
-	if(config.vid_color_depth == 32 || config.vid_color_depth == 24)
-		glDisable(GL_DITHER);
-	else
-		glEnable(GL_DITHER);
-
-	glViewport(0, 0, screen->w, screen->h);
+	int win_h = 0, win_w = 0;
+	SDL_GetWindowSize(sdl_window, &win_w, &win_h);
+	glViewport(0, 0, win_w, win_h);
 	glColorMaterial(GL_FRONT, GL_DIFFUSE);
 	glEnable(GL_COLOR_MATERIAL);
 

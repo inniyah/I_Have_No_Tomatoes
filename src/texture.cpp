@@ -30,9 +30,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "SDL.h"
-#include "SDL_image.h"
-#include "SDL_opengl.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_opengl.h>
+
+#include <GL/gl.h>
+#include <GL/glu.h>
 
 #include "texture.h"
 #include "init.h"
@@ -67,13 +70,13 @@ Uint32 getpixel(SDL_Surface *bmp, int x, int y) {
 
 
 // Load a PNG
-GLuint load_png(char *file, bool alpha, bool repeat, bool mipmaps) {
+GLuint load_png(const char *file, bool alpha, bool repeat, bool mipmaps) {
 	return load_texture(file, "PNG", alpha, repeat, mipmaps);
 }
 
 
 // Load a JPG
-GLuint load_jpg(char *file, bool alpha, bool repeat, bool mipmaps) {
+GLuint load_jpg(const char *file, bool alpha, bool repeat, bool mipmaps) {
 	return load_texture(file, "JPG", alpha, repeat, mipmaps);
 }
 
@@ -84,7 +87,7 @@ GLuint load_jpg(char *file, bool alpha, bool repeat, bool mipmaps) {
 // If repeat == true -> texture can be tiled
 // If mipmaps == true -> Mipmaps will be generated
 // Return texture ID
-GLuint load_texture(char *file, char *img_type, bool alpha, bool repeat, bool mipmaps) {
+GLuint load_texture(const char *file, const char *img_type, bool alpha, bool repeat, bool mipmaps) {
 
 	GLuint tex;
 
@@ -97,7 +100,7 @@ GLuint load_texture(char *file, char *img_type, bool alpha, bool repeat, bool mi
 		error_msg("Unable to load texture from %s!\nSomething is wrong with the pakfile.", file);
 
 	SDL_RWops *rw;
-	rw = SDL_RWFromFP(fin, 1);
+	rw = SDL_RWFromFP(fin, SDL_TRUE);
 	img = IMG_LoadTyped_RW(rw,0, img_type);
 	if(img == NULL)
 		error_msg("Unable to load texture from %s!\n%s", file, IMG_GetError());
@@ -187,7 +190,7 @@ GLuint load_texture(char *file, char *img_type, bool alpha, bool repeat, bool mi
 
 
 // Same as load_texture(), but loads into a specified texture index
-void load_texture_into(GLuint tex, char *file, char *img_type, bool alpha, bool repeat, bool mipmaps) {
+void load_texture_into(GLuint tex, const char *file, const char *img_type, bool alpha, bool repeat, bool mipmaps) {
 	// Load the 'file' to SDL_Surface
 	SDL_Surface *img = NULL;
 
@@ -196,8 +199,8 @@ void load_texture_into(GLuint tex, char *file, char *img_type, bool alpha, bool 
 		error_msg("Unable to load texture from %s!\nSomething is wrong with the pakfile.", file);
 
 	SDL_RWops *rw;
-	rw = SDL_RWFromFP(fin, 1);
-	img = IMG_LoadTyped_RW(rw,0, img_type);
+	rw = SDL_RWFromFP(fin, SDL_TRUE);
+	img = IMG_LoadTyped_RW(rw, 0, img_type);
 	if(img == NULL)
 		error_msg("Unable to load texture from %s!\n%s", file, IMG_GetError());
 	SDL_FreeRW(rw);
@@ -268,7 +271,7 @@ GLuint create_empty_texture(int w, int h, int mode) {
 	if(!data)
 		error_msg("Unable to create an empty texture!");
 
-	memset(data, 0, sizeof(data));
+	memset(data, 0, w*h*bpp);
 
 	glGenTextures(1, &tex);		// Generate texture ID
 	glBindTexture(GL_TEXTURE_2D, tex);

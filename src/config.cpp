@@ -44,7 +44,7 @@ using namespace std;
 
 // Helper function which makes sure that .tomatoes directory
 // exists in the user's home directory.
-string get_tomatoes_dir() {
+std::string get_tomatoes_dir() {
 	// Get the HOME environment variable
 	char *home = getenv("HOME");
 	if(home != NULL) {
@@ -76,7 +76,7 @@ string get_tomatoes_dir() {
 // config file. It first checks the user's home directory,
 // and if that fails it uses the CONFIG_DIR defined in the
 // makefile.
-string get_config_location(bool write) {
+std::string get_config_location(bool write) {
 #ifdef LINUX
 	// Get the path to the config file
 	string tmp = get_tomatoes_dir() + "config.cfg";
@@ -98,9 +98,38 @@ string get_config_location(bool write) {
 	return (CONFIG_DIR "config.cfg");
 }
 
+void load_default_config(CONFIG *conf) {
+	conf->vid_w = 800;
+	conf->vid_h = 600;
+	conf->vid_color_depth = 32;
+	conf->fullscreen = 1;
+	conf->sound = 1;
+	conf->sound_freq = 44100;
+	conf->sound_vol = 205;
+	conf->music_vol = 135;
+	conf->show_fps = 0;
+	conf->key_left[0] = 276;
+	conf->key_left[1] = 97;
+	conf->key_right[0] = 275;
+	conf->key_right[1] = 100;
+	conf->key_up[0] = 273;
+	conf->key_up[1] = 119;
+	conf->key_down[0] = 274;
+	conf->key_down[1] = 115;
+	conf->key_shoot[0] = 32;
+	conf->key_shoot[1] = 304;
+	conf->key_special[0] = 307;
+	conf->key_special[1] = 306;
+	conf->perspective_mode = 0;
+	conf->moving_style[0] = 2;
+	conf->moving_style[1] = 2;
+}
+
+
 
 // Load config from file
 void load_config(string file, CONFIG *conf) {
+	printf("config = %s\n", file.c_str());
 
 	FILE *f = fopen(file.c_str(), "rt");
 	if(!f)
@@ -123,6 +152,23 @@ void load_config(string file, CONFIG *conf) {
 	fscanf(f, "perspective = %d\n", &(conf->perspective_mode));
 	fscanf(f, "moving_style = %d %d\n", &(conf->moving_style[0]), &(conf->moving_style[1]));
 	fclose(f);
+
+	printf("video_mode = %d x %d\n", (conf->vid_w), (conf->vid_h));
+	printf("video_mode_color_depth = %d\n", (conf->vid_color_depth));
+	printf("video_mode_fullscreen = %d\n", (conf->fullscreen));
+	printf("sound_enabled = %d\n", (conf->sound));
+	printf("sound_freq = %d\n", (conf->sound_freq));
+	printf("sound_volume = %d\n", (conf->sound_vol));
+	printf("music_volume = %d\n", (conf->music_vol));
+	printf("show_fps = %d\n", (conf->show_fps));
+	printf("key_left = %d %d\n", (conf->key_left[0]), (conf->key_left[1]));
+	printf("key_right = %d %d\n", (conf->key_right[0]), (conf->key_right[1]));
+	printf("key_up = %d %d\n", (conf->key_up[0]), (conf->key_up[1]));
+	printf("key_down = %d %d\n", (conf->key_down[0]), (conf->key_down[1]));
+	printf("key_shoot = %d %d\n", (conf->key_shoot[0]), (conf->key_shoot[1]));
+	printf("key_special = %d %d\n", (conf->key_special[0]), (conf->key_special[1]));
+	printf("perspective = %d\n", (conf->perspective_mode));
+	printf("moving_style = %d %d\n", (conf->moving_style[0]), (conf->moving_style[1]));
 }
 
 

@@ -30,8 +30,10 @@
 #ifndef GAME_H
 #define GAME_H
 
-// Array containing currently pressed keys
-extern Uint8 key[SDLK_LAST];
+#include <map>
+
+// Buffer containing currently pressed keys
+extern std::map<SDL_Keycode, Uint8> key;
 
 // Kill count
 extern int kill_count;

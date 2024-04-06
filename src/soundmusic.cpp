@@ -29,8 +29,8 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "SDL.h"
-#include "SDL_mixer.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 #include "game.h"
 #include <string.h>
 #include <dirent.h>
@@ -168,7 +168,7 @@ void music_finished() {
 
 // This helper function loads a sound and stores it to the sound array
 static int cur_sound = 0;
-void load_sound(char *file) {
+void load_sound(const char *file) {
 	if(cur_sound > NUM_SOUNDS-1)
 		error_msg("load_sounds():\nTrying to load too many sounds!\nNUM_SOUNDS is defined as %d.\n", NUM_SOUNDS);
 
@@ -185,8 +185,8 @@ void load_sound(char *file) {
 		// The file doesn't exist in the override directory
 		// try to load it from the pakfile.
 		FILE *fp = pakfile.open_file(file);
-		SDL_RWops *rw = SDL_RWFromFP(fp,0); 
-		sounds[cur_sound] = Mix_LoadWAV_RW(rw,0);
+		SDL_RWops *rw = SDL_RWFromFP(fp, SDL_FALSE); 
+		sounds[cur_sound] = Mix_LoadWAV_RW(rw, 0);
 		SDL_FreeRW(rw);
 		fclose(fp);
 	}

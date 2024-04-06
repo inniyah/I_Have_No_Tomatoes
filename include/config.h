@@ -65,6 +65,9 @@ struct CONFIG {
 std::string get_config_location(bool write = false);
 
 
+// Load default values
+void load_default_config(CONFIG *conf);
+
 // Load config from file
 void load_config(std::string file, CONFIG *conf);
 

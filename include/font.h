@@ -30,6 +30,9 @@
 #ifndef FONT_H
 #define FONT_H
 
+#include <GL/gl.h>
+#include <GL/glu.h>
+
 // Implements basic bitmapped fonts
 // Based on tutorial by Jeff "Nehe" Molofee
 
@@ -68,11 +71,11 @@ extern GLuint font_num;
 
 
 // Print a string with specified font texture
-void glprintf(GLuint tex, int set, float x, float y, float z, char *string, ...);
+void glprintf(GLuint tex, int set, float x, float y, float z, const char *string, ...);
 
 
 // Print a centered string with specified font texture
-void glprintf_center(GLuint tex, int set, float x, float y, float z, char *string, ...);
+void glprintf_center(GLuint tex, int set, float x, float y, float z, const char *string, ...);
 
 
 // Return the length of a string

@@ -28,8 +28,8 @@
 *************************************************************************/
 
 #include <stdlib.h>
-#include "SDL.h"
-#include "SDL_opengl.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
 #include "init.h"
 #include "mpak.h"
 #include "game.h"
@@ -99,7 +99,7 @@ void loading_screen() {
 
 	// Flush and swap the buffers
 	glFlush();
-	SDL_GL_SwapBuffers();
+	SDL_GL_SwapWindow(sdl_window);
 }
 
 
